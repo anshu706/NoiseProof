@@ -40,7 +40,7 @@ cp .env.example .env
 ```
 Ensure your key is set:
 ```env
-GNANI_API_KEY=vach_1ytE2CY5X2F6XegtL1Sw1oNFlcpHK3qgDyK2tSMwCiBGkzOhx2hasMtjtUnvz6QjqzvOkONQBnuKBQGt5zmC9XigW5bAw2iO_26a503bc4e2fb4f1cc678e776cee2c58
+GNANI_API_KEY=your_gnani_api_key_here
 DRY_RUN=false
 MAX_API_CALLS=200
 ```

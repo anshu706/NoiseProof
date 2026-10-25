@@ -1,5 +1,15 @@
-# Secrets
+# Secrets & Environment variables
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+*.token
+*credentials*.json
+*service-account*.json
+secrets/
 
 # Python
 __pycache__/
