@@ -1,0 +1,12 @@
+﻿We built NoiseProof for the Gnani AI Great Indian Internship Challenge.
+
+It generates synthetic Hinglish phone calls, drowns them in 5 noise environments down to 0 dB SNR, and measures exactly what the AI hears.
+
+Word Error Rate at clean speech: 5%.
+Word Error Rate at 0 dB noise: 67%.
+
+Key-fact recall holds above 80% down to 10 dB SNR.
+
+Built with Gnani Prisma STT + Timbre TTS + Evon LLM.
+
+#GnaniAI #GreatIndianAIInternshipChallenge

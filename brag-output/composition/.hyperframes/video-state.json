@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "historyId": "e57b5fd4-c767-430f-bdba-75e125cfd9da",
+  "currentRevision": "2eca75d2-9612-4cfe-8e42-d09df58ab797",
+  "pendingChanges": false,
+  "files": {
+    "assets/sfx/casino/card-slide-1.ogg": {
+      "hash": "006cf9822d15d7063f8899e56041f41646df30adb6fbd8b974ee5d5420012690",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\00\\006cf9822d15d7063f8899e56041f41646df30adb6fbd8b974ee5d5420012690"
+    },
+    "assets/sfx/casino/card-slide-2.ogg": {
+      "hash": "e674a1679ec87b507047fe012d068ad2c412125f56186f0e732684705c2a6888",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\e6\\e674a1679ec87b507047fe012d068ad2c412125f56186f0e732684705c2a6888"
+    },
+    "assets/sfx/casino/card-slide-3.ogg": {
+      "hash": "af2ab62656cb3df73316ce5771b8ee1111a840962b21607e3202151e7413c52c",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\af\\af2ab62656cb3df73316ce5771b8ee1111a840962b21607e3202151e7413c52c"
+    },
+    "assets/sfx/casino/card-slide-4.ogg": {
+      "hash": "b9c82bcdbe6b7d00a06e2546bd2683a9ab082ca5fd090a42882f33eddd925b7f",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\b9\\b9c82bcdbe6b7d00a06e2546bd2683a9ab082ca5fd090a42882f33eddd925b7f"
+    },
+    "assets/sfx/impact/impactBell_heavy_000.ogg": {
+      "hash": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\94\\94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f"
+    },
+    "assets/sfx/impact/impactBell_heavy_003.ogg": {
+      "hash": "5572ccdeb3b62373b86fa955355b3a222c36e815f0636ba16165189a21cf2514",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\55\\5572ccdeb3b62373b86fa955355b3a222c36e815f0636ba16165189a21cf2514"
+    },
+    "assets/sfx/impact/impactBell_heavy_004.ogg": {
+      "hash": "49fe4fafa2001bd0d312976796824571ca8429851f285997e1327d17bb34fd00",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\49\\49fe4fafa2001bd0d312976796824571ca8429851f285997e1327d17bb34fd00"
+    },
+    "assets/sfx/interface/drop_001.ogg": {
+      "hash": "692ee3a6f1821402ca649ff735bee9591dc4846c8098fc7d6a90fd15fa57c1af",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\69\\692ee3a6f1821402ca649ff735bee9591dc4846c8098fc7d6a90fd15fa57c1af"
+    },
+    "assets/sfx/interface/drop_002.ogg": {
+      "hash": "4ac4d1cef7e936965cbf795852ca2020300b9e2ba7daa59f2bf4f1f7bf416218",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\4a\\4ac4d1cef7e936965cbf795852ca2020300b9e2ba7daa59f2bf4f1f7bf416218"
+    },
+    "assets/sfx/interface/drop_003.ogg": {
+      "hash": "43d086d50f90493a98cd2e09aa6dbf150d164f1578e1ec768d21cb185571ad87",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\43\\43d086d50f90493a98cd2e09aa6dbf150d164f1578e1ec768d21cb185571ad87"
+    },
+    "assets/sfx/keyboard/keypress-001.wav": {
+      "hash": "7b873548c399b9aa0efbe63052fe1344c5317a9b23455b8be3523f47d434daf1",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\7b\\7b873548c399b9aa0efbe63052fe1344c5317a9b23455b8be3523f47d434daf1"
+    },
+    "assets/sfx/keyboard/keypress-002.wav": {
+      "hash": "f58f93430c1ad434feb341a89b89740ccad75e7a775d778d91b7f206e0acbe8e",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\f5\\f58f93430c1ad434feb341a89b89740ccad75e7a775d778d91b7f206e0acbe8e"
+    },
+    "assets/sfx/keyboard/keypress-003.wav": {
+      "hash": "d67cf9547d99fc65c815c4c68fa9181e0af71419761cbb1d1f0a10eb8491a8d2",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\d6\\d67cf9547d99fc65c815c4c68fa9181e0af71419761cbb1d1f0a10eb8491a8d2"
+    },
+    "assets/sfx/keyboard/keypress-004.wav": {
+      "hash": "29e1aea1fb841a0663ce75e9d83e675ddc7ae5cef00c623bdda65a72604fde7e",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\29\\29e1aea1fb841a0663ce75e9d83e675ddc7ae5cef00c623bdda65a72604fde7e"
+    },
+    "assets/sfx/keyboard/keypress-005.wav": {
+      "hash": "619eb7e26571657b76fc9e1e3d99e85c3fc2259fa91c4c45f57384a85774ac24",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\61\\619eb7e26571657b76fc9e1e3d99e85c3fc2259fa91c4c45f57384a85774ac24"
+    },
+    "assets/sfx/keyboard/keypress-006.wav": {
+      "hash": "419bde001e7ed1cae63b84f60c803fb024a0254e1afe65e59d8c6d8ad4196eb7",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\41\\419bde001e7ed1cae63b84f60c803fb024a0254e1afe65e59d8c6d8ad4196eb7"
+    },
+    "assets/sfx/keyboard/keypress-007.wav": {
+      "hash": "522834f471e6c2935fd1e6a28042c0864925556efbec32c36d7c7a98026d4bfc",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\52\\522834f471e6c2935fd1e6a28042c0864925556efbec32c36d7c7a98026d4bfc"
+    },
+    "assets/sfx/keyboard/keypress-008.wav": {
+      "hash": "c2ab8722a81a2f1cab66cd863a09a9ec00392e2ede61362b3707a7bcc0eee506",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\c2\\c2ab8722a81a2f1cab66cd863a09a9ec00392e2ede61362b3707a7bcc0eee506"
+    },
+    "assets/sfx/keyboard/keypress-009.wav": {
+      "hash": "25595c1d1e0e18aada04dce3a651dc2c499f1fbc2647c1ab0b3c4e718275b16b",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\25\\25595c1d1e0e18aada04dce3a651dc2c499f1fbc2647c1ab0b3c4e718275b16b"
+    },
+    "assets/sfx/keyboard/keypress-010.wav": {
+      "hash": "3a65bf93ec554b068b0a64d11d2bb521cd54e7a9e7ef3362a670efb1e410f0dc",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\3a\\3a65bf93ec554b068b0a64d11d2bb521cd54e7a9e7ef3362a670efb1e410f0dc"
+    },
+    "index.html": {
+      "hash": "d755f47d582777a806e8016534fba3c9218f24755166d1865fe3030419baf0b5",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\d7\\d755f47d582777a806e8016534fba3c9218f24755166d1865fe3030419baf0b5"
+    },
+    "assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3": {
+      "hash": "5888d4bd2ba0119b87a94e502ae2cc401c08192945cc5e5c2f8e8a33aa47a0a1",
+      "content": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\58\\5888d4bd2ba0119b87a94e502ae2cc401c08192945cc5e5c2f8e8a33aa47a0a1"
+    }
+  },
+  "revisions": {
+    "4713bb8a-11d3-491c-91d2-3dd166d6a83e": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792949903170,
+      "endedAt": 1792949903177,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\a9\\a96aeaa0453f171c4126676f5e922e695b564c154158799b163050ba5a2c4d61",
+          "after": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\28\\283e52cc48252a85d7007cb753d5589088ae6d558434249f839d6d47eecb30f2"
+        }
+      }
+    },
+    "9f88b7ec-8552-46a6-a3de-5d765d4e56fb": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792950234605,
+      "endedAt": 1792950234610,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\28\\283e52cc48252a85d7007cb753d5589088ae6d558434249f839d6d47eecb30f2",
+          "after": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\fe\\fe19da7f54f63c94cf5b3ca96c5a32b2bc0bfb4299cdc8cd568bdc064d5d16e7"
+        }
+      }
+    },
+    "2eca75d2-9612-4cfe-8e42-d09df58ab797": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792950576407,
+      "endedAt": 1792950576412,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\fe\\fe19da7f54f63c94cf5b3ca96c5a32b2bc0bfb4299cdc8cd568bdc064d5d16e7",
+          "after": "C:\\Users\\DELL\\.cache\\hyperframes\\history\\e57b5fd4-c767-430f-bdba-75e125cfd9da\\blobs\\d7\\d755f47d582777a806e8016534fba3c9218f24755166d1865fe3030419baf0b5"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": null,
+      "id": "ce374918-cb1f-4df8-8f13-6450fa984878"
+    },
+    "revisions": {
+      "4713bb8a-11d3-491c-91d2-3dd166d6a83e": [
+        {
+          "id": "b5ed6d95-0d3f-4da9-92c9-d9e98ed8544b",
+          "scope": "project",
+          "metadata": {
+            "ok": false,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792949925448,
+          "contentHash": "980631e604bc9699ad2a9bdb50deef5d595230c53808b27d0ea2a7c593d8fddc",
+          "revision": "4713bb8a-11d3-491c-91d2-3dd166d6a83e",
+          "inputFingerprint": "4b379f6b824b89948e0e211b2660ea22973a3eb80fe1b3a4d4a3868f0993b379",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "f8f60b47-b5d5-4aa6-a7b2-81d896b7a522"
+        }
+      ],
+      "9f88b7ec-8552-46a6-a3de-5d765d4e56fb": [
+        {
+          "id": "868ed93a-7ae1-4635-9271-ec8ffa644daf",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792950255582,
+          "contentHash": "2008195d0c83a938529be21f7bcfbb2a86271f84536b242a432b0e7917f1a2cf",
+          "revision": "9f88b7ec-8552-46a6-a3de-5d765d4e56fb",
+          "inputFingerprint": "c64c55848abdae3943f31364e400f0b4fb578c2659970d2b9b642ce47f214690",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "f8f60b47-b5d5-4aa6-a7b2-81d896b7a522"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "ce374918-cb1f-4df8-8f13-6450fa984878",
+        "scope": "project",
+        "report": "D:\\PROJECTS\\NoiseProof\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\ce374918-cb1f-4df8-8f13-6450fa984878.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": true,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792949767728,
+        "contentHash": "1c44ceb3c4a9ffd452cbe7635856ff163bb91bd7654fcd6ba254a29fec18dbc3",
+        "revision": null,
+        "inputFingerprint": "c5d6964a0df71bb3d3d9a0e228d71deb07b191daa45ff6fa3875fe8b458accbd",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "f8f60b47-b5d5-4aa6-a7b2-81d896b7a522",
+      "completedAt": 1792950686366,
+      "output": "D:\\PROJECTS\\NoiseProof\\brag-output\\brag.mp4",
+      "status": "completed",
+      "revision": "2eca75d2-9612-4cfe-8e42-d09df58ab797"
+    },
+    "retainedRevisions": [
+      "2eca75d2-9612-4cfe-8e42-d09df58ab797"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

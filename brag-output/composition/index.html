@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoiseProof — Brag Video</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:    #F7F7EE;
+      --ink:   #292919;
+      --gold:  #8D6D2F; /* darkened for WCAG AA on white: 4.6:1 — matches checker suggestion */
+      --terra: #BD4926; /* darkened for WCAG AA on white: 4.6:1 */
+      --olive: #2D5A27;
+      --muted: #565648; /* darkened for WCAG AA on parchment */
+      --dim:   #727264; /* darkened for WCAG AA on parchment: 4.6:1 */
+      --border: rgba(41,41,25,0.14);
+      --serif: 'Newsreader', Georgia, serif;
+      --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+      --mono:  'JetBrains Mono', monospace;
+    }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+
+    #comp-root {
+      position: relative; width: 1920px; height: 1080px; overflow: hidden;
+      background: var(--bg);
+      background-image:
+        linear-gradient(to right, rgba(41,41,25,.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(41,41,25,.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* Scenes are absolute positioned overlays */
+    .scene {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+    }
+
+    /* .clip is a pure semantic marker — NO position:absolute, no layout side-effects */
+    .clip { /* intentionally empty — Hyperframes uses this for timeline recognition only */ }
+
+    /* Persistent watermark visible from t=0 */
+    #wm-crest {
+      position: absolute; bottom: 32px; right: 44px;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0.18;
+    }
+    .wm-n {
+      width: 36px; height: 36px; border-radius: 7px;
+      background: var(--ink); color: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 22px; font-style: italic; font-weight: 700;
+    }
+    .wm-label { font-family: var(--mono); font-size: 13px; color: var(--ink); letter-spacing: 0.06em; font-weight: 700; }
+
+    /* ── SCENE 1: HOOK ── */
+    #scene-1 { flex-direction: column; text-align: center; padding: 0 180px; }
+    .hook-line {
+      font-family: var(--serif); font-style: italic; font-size: 76px;
+      font-weight: 500; color: var(--ink); line-height: 1.12;
+      letter-spacing: -0.03em; max-width: 1400px; text-align: center;
+    }
+    .hook-word { display: inline-block; opacity: 0; margin-right: 16px; }
+
+    /* ── SCENE 2: WER ── */
+    #scene-2 { flex-direction: column; text-align: center; }
+    .corner-mark {
+      position: absolute; top: 36px; left: 48px;
+      font-family: var(--mono); font-size: 13px; color: var(--dim); opacity: 0;
+    }
+    .wer-state {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+    }
+    .wer-number {
+      font-family: var(--serif); font-weight: 600; font-size: 240px;
+      line-height: 1; letter-spacing: -0.04em; font-feature-settings: "tnum"; color: var(--ink);
+    }
+    .wer-number.terra { color: var(--terra); }
+    .wer-label {
+      font-family: var(--mono); font-size: 20px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-top: 20px;
+    }
+    .wer-badge {
+      display: inline-flex; align-items: center; padding: 8px 22px;
+      border-radius: 100px; font-family: var(--mono); font-size: 15px;
+      font-weight: 700; letter-spacing: 0.06em; margin-top: 24px;
+    }
+    .badge-olive { background: rgba(45,90,39,.09); color: #2D5A27; border: 1px solid rgba(45,90,39,.28); }
+    .badge-mid   { background: rgba(189,73,38,.09); color: var(--terra); border: 1px solid rgba(189,73,38,.28); }
+    .badge-danger{ background: rgba(189,73,38,.14); color: var(--terra); border: 1px solid rgba(189,73,38,.4);  }
+
+    /* ── SCENE 3: NOISE CARDS ── */
+    #scene-3 { flex-direction: column; align-items: center; gap: 40px; }
+    #noise-label {
+      font-family: var(--mono); font-size: 15px; color: var(--dim);
+      letter-spacing: 0.10em; text-transform: uppercase; opacity: 0;
+    }
+    .noise-cards-row { display: flex; gap: 20px; }
+    .noise-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 12px;
+      padding: 28px 32px; min-width: 224px;
+      box-shadow: 0 4px 20px rgba(41,41,25,.06); opacity: 0;
+    }
+    .noise-card-name { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+    .noise-card-badge {
+      display: inline-flex; align-items: center; padding: 4px 12px;
+      border-radius: 100px; font-size: 13px; font-weight: 700;
+      font-family: var(--mono);
+      background: rgba(189,73,38,.09); color: var(--terra);
+      border: 1px solid rgba(189,73,38,.28);
+    }
+
+    /* ── SCENE 4: GNANI BADGES ── */
+    #scene-4 { flex-direction: column; align-items: center; gap: 32px; }
+    #gnani-label {
+      font-family: var(--mono); font-size: 14px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); opacity: 0;
+    }
+    .gnani-badge-col { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+    .gnani-badge {
+      display: flex; align-items: center; justify-content: space-between; gap: 60px;
+      padding: 20px 36px; background: #fff; border: 1px solid var(--border);
+      border-radius: 10px; min-width: 560px;
+      box-shadow: 0 2px 14px rgba(41,41,25,.04); opacity: 0;
+    }
+    .gnani-badge-name { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--gold); }
+    .gnani-badge-role { font-family: var(--mono); font-size: 14px; color: var(--muted); }
+
+    /* ── SCENE 5: OUTRO ── */
+    #scene-5 { flex-direction: column; align-items: center; }
+    #outro-banner {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 88px; background: rgba(255,255,255,.70);
+      backdrop-filter: blur(16px); border-bottom: 1px solid var(--border);
+      font-family: var(--mono); font-size: 14px; letter-spacing: .06em;
+      color: var(--muted); opacity: 0;
+    }
+    .edition-pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 7px 18px; border-radius: 100px; background: #fff;
+      border: 1px solid var(--border); color: var(--ink);
+      font-weight: 700; font-size: 14px; font-family: var(--mono);
+    }
+    .edition-pill.gold-pill { /* WCAG AA: rgb(136,104,46) = #886832 */
+      background: rgba(136,104,46,.09); border-color: rgba(136,104,46,.3);
+      color: #886832; /* WCAG AA on white: 4.6:1 */
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #B88E3E; box-shadow: 0 0 10px rgba(184,142,62,.7);
+      animation: pulseDot 2.2s infinite;
+    }
+    @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.8)} }
+    #outro-center { display: flex; flex-direction: column; align-items: center; gap: 28px; margin-top: 128px; opacity: 0; }
+    .outro-crest-row { display: flex; align-items: center; gap: 22px; }
+    .brand-crest {
+      width: 64px; height: 64px; border-radius: 11px;
+      background: var(--ink); color: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 36px; font-style: italic; font-weight: 700;
+      box-shadow: 0 4px 20px rgba(41,41,25,.20);
+    }
+    .wordmark { font-family: var(--serif); font-size: 88px; font-weight: 600; color: var(--ink); letter-spacing: -0.035em; line-height: 1; }
+    .outro-hashtags { font-family: var(--mono); font-size: 16px; color: var(--muted); letter-spacing: .05em; }
+    .outro-snr { font-family: var(--mono); font-size: 14px; color: var(--dim); letter-spacing: .08em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+<div id="comp-root"
+     data-composition-id="noiseproof-brag"
+     data-width="1920"
+     data-height="1080"
+     data-duration="21"
+     data-fps="30">
+
+  <!-- Persistent watermark (visible from t=0 — fixes first_frame_empty) -->
+  <div id="wm-crest">
+    <div class="wm-n">N</div>
+    <span class="wm-label">NoiseProof</span>
+  </div>
+
+  <!-- ══════════════════ AUDIO ══════════════════ -->
+  <audio id="bg-music" class="clip" data-start="0"     data-duration="21"  data-track-index="10" data-volume="0.32" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+  <!-- Keyboard word ticks -->
+  <audio id="sfx-w1" class="clip" data-start="0.45"  data-duration="0.4" data-track-index="11" data-volume="0.52" src="assets/sfx/keyboard/keypress-003.wav"></audio>
+  <audio id="sfx-w2" class="clip" data-start="0.85"  data-duration="0.4" data-track-index="12" data-volume="0.48" src="assets/sfx/keyboard/keypress-007.wav"></audio>
+  <audio id="sfx-w3" class="clip" data-start="1.25"  data-duration="0.4" data-track-index="13" data-volume="0.50" src="assets/sfx/keyboard/keypress-001.wav"></audio>
+  <audio id="sfx-w4" class="clip" data-start="1.65"  data-duration="0.4" data-track-index="14" data-volume="0.48" src="assets/sfx/keyboard/keypress-005.wav"></audio>
+  <audio id="sfx-w5" class="clip" data-start="2.05"  data-duration="0.4" data-track-index="15" data-volume="0.52" src="assets/sfx/keyboard/keypress-009.wav"></audio>
+  <audio id="sfx-w6" class="clip" data-start="2.50"  data-duration="0.4" data-track-index="16" data-volume="0.56" src="assets/sfx/keyboard/keypress-002.wav"></audio>
+  <!-- WER bell hits -->
+  <audio id="sfx-bell-1" class="clip" data-start="4.55"  data-duration="2.5" data-track-index="17" data-volume="0.60" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+  <audio id="sfx-bell-2" class="clip" data-start="6.55"  data-duration="2.5" data-track-index="18" data-volume="0.68" src="assets/sfx/impact/impactBell_heavy_003.ogg"></audio>
+  <audio id="sfx-bell-3" class="clip" data-start="8.55"  data-duration="2.5" data-track-index="19" data-volume="0.78" src="assets/sfx/impact/impactBell_heavy_003.ogg"></audio>
+  <!-- Card slides -->
+  <audio id="sfx-c1" class="clip" data-start="10.10" data-duration="0.8" data-track-index="20" data-volume="0.55" src="assets/sfx/casino/card-slide-3.ogg"></audio>
+  <audio id="sfx-c2" class="clip" data-start="10.80" data-duration="0.8" data-track-index="21" data-volume="0.55" src="assets/sfx/casino/card-slide-1.ogg"></audio>
+  <audio id="sfx-c3" class="clip" data-start="11.50" data-duration="0.8" data-track-index="22" data-volume="0.55" src="assets/sfx/casino/card-slide-3.ogg"></audio>
+  <audio id="sfx-c4" class="clip" data-start="12.20" data-duration="0.8" data-track-index="23" data-volume="0.55" src="assets/sfx/casino/card-slide-2.ogg"></audio>
+  <audio id="sfx-c5" class="clip" data-start="12.90" data-duration="0.8" data-track-index="24" data-volume="0.55" src="assets/sfx/casino/card-slide-4.ogg"></audio>
+  <!-- Badge drops -->
+  <audio id="sfx-d1" class="clip" data-start="14.10" data-duration="0.8" data-track-index="25" data-volume="0.63" src="assets/sfx/interface/drop_001.ogg"></audio>
+  <audio id="sfx-d2" class="clip" data-start="15.15" data-duration="0.8" data-track-index="26" data-volume="0.63" src="assets/sfx/interface/drop_002.ogg"></audio>
+  <audio id="sfx-d3" class="clip" data-start="16.20" data-duration="0.8" data-track-index="27" data-volume="0.63" src="assets/sfx/interface/drop_003.ogg"></audio>
+  <!-- Outro bell -->
+  <audio id="sfx-outro" class="clip" data-start="18.40" data-duration="0.30" data-track-index="28" data-volume="0.44" src="assets/sfx/impact/impactBell_heavy_004.ogg"></audio>
+
+  <!-- ══════════════════ SCENE 1: HOOK (0–4s) ══════════════════ -->
+  <!-- Extended to 4s so final phrase "0 dB noise?" holds 1.5s = well above floor -->
+  <section id="scene-1" class="scene clip" data-start="0" data-duration="4">
+    <div class="hook-line">
+      <span id="w1" class="hook-word clip" data-start="0.40" data-duration="3.55">What</span>
+      <span id="w2" class="hook-word clip" data-start="0.80" data-duration="3.15">happens</span>
+      <span id="w3" class="hook-word clip" data-start="1.20" data-duration="2.75">to</span>
+      <span id="w4" class="hook-word clip" data-start="1.60" data-duration="2.35">a</span>
+      <span id="w5" class="hook-word clip" data-start="2.00" data-duration="1.95">phone</span>
+      <span id="w6" class="hook-word clip" data-start="2.45" data-duration="1.50">call</span>
+      <!-- Final phrase "at 0 dB noise?" grouped together for 1.5s hold -->
+      <span id="w7" class="hook-word clip" data-start="2.50" data-duration="1.45">at&nbsp;0&nbsp;dB&nbsp;noise?</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════ SCENE 2: WER COLLAPSE (4–10s) ══════════════════ -->
+  <section id="scene-2" class="scene clip" data-start="4" data-duration="6">
+    <div id="corner-mark" class="corner-mark clip" data-start="4.1" data-duration="5.8" data-layout-ignore>+ NoiseProof // WER Analysis</div>
+    <!-- State A: 5% Clean (4.5–6.5s) -->
+    <div id="wer-a" class="wer-state clip" data-start="4.5" data-duration="2.0">
+      <div class="wer-number">5%</div>
+      <div class="wer-label">Word Error Rate</div>
+      <div class="wer-badge badge-olive">CLEAN SPEECH</div>
+    </div>
+    <!-- State B: 28% 10dB (6.5–8.5s) -->
+    <div id="wer-b" class="wer-state clip" data-start="6.5" data-duration="2.0">
+      <div class="wer-number terra">28%</div>
+      <div class="wer-label">Word Error Rate</div>
+      <div class="wer-badge badge-mid">10 dB SNR</div>
+    </div>
+    <!-- State C: 67% 0dB (8.5–10s) -->
+    <div id="wer-c" class="wer-state clip" data-start="8.5" data-duration="1.5">
+      <div class="wer-number terra" id="wer-num-c">67%</div>
+      <div class="wer-label">Word Error Rate</div>
+      <div class="wer-badge badge-danger">0 dB SNR — MAXIMUM NOISE</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ SCENE 3: NOISE ENVIRONMENTS (10–14s) ══════════════════ -->
+  <section id="scene-3" class="scene clip" data-start="10" data-duration="4">
+    <div id="noise-label" class="clip" data-start="10.0" data-duration="3.9">5 Noise Environments Tested</div>
+    <div class="noise-cards-row">
+      <!-- Cards use data-layout-ignore on small badge labels since they are decorative -->
+      <div id="nc-1" class="noise-card clip" data-start="10.1" data-duration="3.8">
+        <div class="noise-card-name">Street Traffic</div>
+        <span class="noise-card-badge" data-layout-ignore>URBAN</span>
+      </div>
+      <div id="nc-2" class="noise-card clip" data-start="10.8" data-duration="3.1">
+        <div class="noise-card-name">Crowd Chatter</div>
+        <span class="noise-card-badge" data-layout-ignore>SOCIAL</span>
+      </div>
+      <div id="nc-3" class="noise-card clip" data-start="11.5" data-duration="2.4">
+        <div class="noise-card-name">Wind Turbulence</div>
+        <span class="noise-card-badge" data-layout-ignore>AMBIENT</span>
+      </div>
+      <div id="nc-4" class="noise-card clip" data-start="12.2" data-duration="1.7">
+        <div class="noise-card-name">White Noise</div>
+        <span class="noise-card-badge" data-layout-ignore>PURE</span>
+      </div>
+      <div id="nc-5" class="noise-card clip" data-start="12.9" data-duration="1.0">
+        <div class="noise-card-name">Bustling Markets</div>
+        <span class="noise-card-badge" data-layout-ignore>CHAOTIC</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ SCENE 4: GNANI VACHANA SUITE (14–18s) ══════════════════ -->
+  <section id="scene-4" class="scene clip" data-start="14" data-duration="4">
+    <div id="gnani-label" class="clip" data-start="14.0" data-duration="3.9">Powered by · Gnani Vachana Suite</div>
+    <!-- Badges in a column layout — NOT absolute positioned, flows as flex column -->
+    <div class="gnani-badge-col">
+      <div id="gb-1" class="gnani-badge clip" data-start="14.1" data-duration="3.8">
+        <span class="gnani-badge-name">Prisma v2.5</span>
+        <span class="gnani-badge-role">STT Audio Engine</span>
+      </div>
+      <div id="gb-2" class="gnani-badge clip" data-start="15.15" data-duration="2.75">
+        <span class="gnani-badge-name">Timbre v2.5</span>
+        <span class="gnani-badge-role">Multi-Voice TTS</span>
+      </div>
+      <div id="gb-3" class="gnani-badge clip" data-start="16.2" data-duration="1.7">
+        <span class="gnani-badge-name">Evon v3.3</span>
+        <span class="gnani-badge-role">Reasoning &amp; Eval</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ SCENE 5: OUTRO (18–21s) ══════════════════ -->
+  <section id="scene-5" class="scene clip" data-start="18" data-duration="3">
+    <div id="outro-banner" class="clip" data-start="18.0" data-duration="3">
+      <div class="edition-pill">
+        <span class="live-dot"></span>THE RENAISSANCE EDITION · WINTER '26
+      </div>
+      <span>Award Target: Noise Canceller (0 dB Tolerance)</span>
+      <div class="edition-pill gold-pill">GNANI VACHANA SUITE</div>
+    </div>
+    <div id="outro-center" class="clip" data-start="18.3" data-duration="2.7">
+      <div class="outro-crest-row">
+        <div class="brand-crest">N</div>
+        <div class="wordmark">NoiseProof</div>
+      </div>
+      <div class="outro-hashtags">#GnaniAI &nbsp;·&nbsp; #GreatIndianAIInternshipChallenge</div>
+      <div class="outro-snr">0 dB Tolerance · Gnani Prisma STT · Timbre TTS · Evon LLM</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function() {
+  const COMP_ID = 'noiseproof-brag';
+  window.__timelines = window.__timelines || {};
+
+  const tl = gsap.timeline({ paused: true });
+
+  // ── Helpers ──
+  const fu  = (sel, at, d) => tl.fromTo(sel, { opacity:0, y:10 }, { opacity:1, y:0, duration:d, ease:'power2.out' }, at);
+  const fi  = (sel, at, d) => tl.fromTo(sel, { opacity:0 },       { opacity:1,       duration:d, ease:'power2.out' }, at);
+  const sl  = (sel, at, d) => tl.fromTo(sel, { opacity:0, x:-28 }, { opacity:1, x:0, duration:d, ease:'power2.out' }, at);
+  const sho = (id, at) => { tl.set('#'+id, { visibility:'visible' }, at); };
+  const hid = (id, at) => { tl.set('#'+id, { opacity:0, visibility:'hidden' }, at); };
+
+  // Watermark — always visible at 18% opacity from t=0
+  tl.set('#wm-crest', { opacity: 0.18 }, 0);
+
+  // ── SCENE 1: HOOK (0–4s) ──────────────────────────
+  sho('scene-1', 0);
+  tl.set('#scene-1', { opacity:1 }, 0);
+  // Words accumulate — each fades in and STAYS until scene ends at 4.0s
+  fu('#w1', 0.40, 0.32);
+  fu('#w2', 0.80, 0.32);
+  fu('#w3', 1.20, 0.32);
+  fu('#w4', 1.60, 0.32);
+  fu('#w5', 2.00, 0.32);
+  fu('#w6', 2.45, 0.32);
+  fu('#w7', 2.50, 0.40); // "at 0 dB noise?" — heavier entrance
+  hid('scene-1', 4.0);
+
+  // ── SCENE 2: WER COLLAPSE (4–10s) ────────────────
+  sho('scene-2', 4.0);
+  fi('#scene-2', 4.0, 0.3);
+  fi('#corner-mark', 4.15, 0.5);
+
+  // WER-A: 5% Clean (4.5–6.5s)
+  sho('wer-a', 4.5);
+  fi('#wer-a', 4.5, 0.22);
+  hid('wer-a', 6.5);
+
+  // WER-B: 28% 10dB (6.5–8.5s)
+  sho('wer-b', 6.5);
+  fi('#wer-b', 6.5, 0.22);
+  hid('wer-b', 8.5);
+
+  // WER-C: 67% 0dB (8.5–10s) — slam + tremble
+  sho('wer-c', 8.5);
+  fi('#wer-c', 8.5, 0.14);
+  tl.fromTo('#wer-num-c',
+    { scale:1 }, { scale:1.018, duration:0.16, ease:'power3.out', yoyo:true, repeat:1 },
+    8.52
+  );
+  hid('scene-2', 10.0);
+
+  // ── SCENE 3: NOISE ENVIRONMENTS (10–14s) ─────────
+  sho('scene-3', 10.0);
+  fi('#scene-3', 10.0, 0.3);
+  fu('#noise-label', 10.0, 0.5);
+  sl('#nc-1', 10.1,  0.42);
+  sl('#nc-2', 10.80, 0.42);
+  sl('#nc-3', 11.50, 0.42);
+  sl('#nc-4', 12.20, 0.42);
+  sl('#nc-5', 12.90, 0.42);
+  hid('scene-3', 14.0);
+
+  // ── SCENE 4: GNANI VACHANA SUITE (14–18s) ────────
+  sho('scene-4', 14.0);
+  fi('#scene-4', 14.0, 0.3);
+  fi('#gnani-label', 14.0, 0.5);
+  fu('#gb-1', 14.10, 0.50);
+  fu('#gb-2', 15.15, 0.50);
+  fu('#gb-3', 16.20, 0.50);
+  // Gold glow grows on all badges
+  tl.fromTo('#gb-1, #gb-2, #gb-3',
+    { boxShadow:'0 2px 14px rgba(41,41,25,0.04)' },
+    { boxShadow:'0 2px 14px rgba(41,41,25,0.04), 0 0 30px rgba(184,142,62,0.20)', duration:2.8, ease:'sine.inOut' },
+    14.6
+  );
+  hid('scene-4', 18.0);
+
+  // ── SCENE 5: OUTRO (18–21s) ──────────────────────
+  sho('scene-5', 18.0);
+  fi('#scene-5', 18.0, 0.3);
+  fi('#outro-banner', 18.0, 0.50);
+  fu('#outro-center', 18.30, 0.60);
+
+  tl.set({}, {}, 21);
+
+  window.__timelines[COMP_ID] = tl;
+})();
+</script>
+</body>
+</html>

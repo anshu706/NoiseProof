@@ -16,12 +16,22 @@ Confirmed facts from docs (https://docs.gnani.ai):
   TTS voices (v2.5 Hinglish): Poorvi
   TTS voices (v2.5 Hindi)   : Nalini, Deepak, Bhavna … (see docs)
   TTS audio output           : WAV PCM returned as binary
-  Evon v3.3     : accessed via LLM API (OpenAI-compatible)
 
-NOTE – Evon v3.3 is not yet listed as a standalone REST endpoint in the
-public docs; we reach it via the GNANI API key and a chat-completions
-compatible path.  If Gnani publishes a dedicated endpoint, update
-EVON_BASE_URL below.
+  Evon v3.3 – two access paths (auto-detected from key prefix):
+
+  Path A – Gnani vachana.ai gateway (GNANI_API_KEY or non-hf_ EVON_API_KEY):
+    POST https://api.vachana.ai/evon/v1/chat/completions
+    Auth: X-API-Key-ID: <key>
+    Body: OpenAI chat-completions JSON  (model: "evon-v3.3")
+
+  Path B – Hugging Face Inference API (EVON_API_KEY starts with "hf_"):
+    POST https://api-inference.huggingface.co/models/gnani/gnani-evon-v3.3-30B-A3B
+    Auth: Authorization: Bearer <hf_token>
+    Body: {"inputs": "<prompt>", "parameters": {...}}
+    Docs: https://huggingface.co/gnani/gnani-evon-v3.3-30B-A3B
+
+  The client selects Path B automatically when EVON_API_KEY begins with "hf_".
+  No code changes are needed – just set the key in .env.
 """
 from __future__ import annotations
 
@@ -42,8 +52,19 @@ logger = logging.getLogger(__name__)
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 STT_URL = "https://api.vachana.ai/stt/v3"
 TTS_URL = "https://api.vachana.ai/api/v1/tts/inference"
-# Evon – Gnani's reasoning model.  Uses an OpenAI-compatible completions path.
+
+# Evon Path A – Gnani vachana.ai OpenAI-compatible gateway
 EVON_BASE_URL = "https://api.vachana.ai/evon/v1"
+
+# Evon Path B – Hugging Face Inference API
+# Used automatically when EVON_API_KEY starts with "hf_"
+HF_EVON_URL = "https://api-inference.huggingface.co/models/gnani/gnani-evon-v3.3-30B-A3B"
+HF_KEY_PREFIX = "hf_"
+
+
+def _is_hf_key(key: str) -> bool:
+    """Return True if the key is a Hugging Face token (starts with 'hf_')."""
+    return key.startswith(HF_KEY_PREFIX)
 
 # ── Credit counter (in-memory, resets on restart) ─────────────────────────────
 _api_call_count: int = 0
@@ -261,6 +282,77 @@ def synthesise(
 
 # ── Evon v3.3 – reasoning / LLM ──────────────────────────────────────────────
 
+def _evon_via_gnani(key: str, prompt: str, system: str, max_tokens: int) -> str:
+    """
+    Call Evon via the Gnani vachana.ai OpenAI-compatible gateway.
+    Auth: X-API-Key-ID header.
+    """
+    payload = {
+        "model": "evon-v3.3",
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt},
+        ],
+        "max_tokens": max_tokens,
+        "temperature": 0.3,
+    }
+    with httpx.Client(timeout=60.0) as client:
+        resp = client.post(
+            f"{EVON_BASE_URL}/chat/completions",
+            headers={
+                "Content-Type": "application/json",
+                "X-API-Key-ID": key,
+            },
+            json=payload,
+        )
+    resp.raise_for_status()
+    return resp.json()["choices"][0]["message"]["content"]
+
+
+def _evon_via_huggingface(hf_token: str, prompt: str, system: str, max_tokens: int) -> str:
+    """
+    Call Evon via the Hugging Face Inference API.
+    Endpoint: POST https://api-inference.huggingface.co/models/gnani/gnani-evon-v3.3-30B-A3B
+    Auth: Authorization: Bearer <hf_token>
+    Docs: https://huggingface.co/gnani/gnani-evon-v3.3-30B-A3B
+
+    The HF Inference API returns a list of generated_text dicts.
+    We prepend the system prompt into the user message since HF
+    text-generation models don't always expose a system role.
+    """
+    full_prompt = f"{system}\n\n{prompt}" if system else prompt
+    payload: Dict[str, Any] = {
+        "inputs": full_prompt,
+        "parameters": {
+            "max_new_tokens": max_tokens,
+            "temperature": 0.3,
+            "return_full_text": False,
+        },
+        "options": {
+            "wait_for_model": True,
+            "use_cache": False,
+        },
+    }
+    with httpx.Client(timeout=180.0) as client:
+        resp = client.post(
+            HF_EVON_URL,
+            headers={
+                "Authorization": f"Bearer {hf_token}",
+                "Content-Type": "application/json",
+                "x-wait-for-model": "true",
+            },
+            json=payload,
+        )
+    resp.raise_for_status()
+    data = resp.json()
+    # HF returns [{"generated_text": "..."}] or a plain string
+    if isinstance(data, list) and data:
+        return data[0].get("generated_text", str(data[0]))
+    if isinstance(data, dict):
+        return data.get("generated_text", json.dumps(data))
+    return str(data)
+
+
 def evon_complete(
     prompt: str,
     system: str = "You are a helpful AI assistant.",
@@ -270,11 +362,11 @@ def evon_complete(
     """
     Call Gnani Evon v3.3 for script generation, summarisation, or judging.
 
-    NOTE: Evon's exact REST endpoint is not yet documented separately; we use
-    the Gnani platform LLM gateway.  Update EVON_BASE_URL if an endpoint is
-    published.
+    Access path is selected automatically from EVON_API_KEY:
+      - If the key starts with 'hf_' → Hugging Face Inference API (Bearer auth)
+      - Otherwise                    → Gnani vachana.ai OpenAI-compatible gateway
 
-    Results are cached keyed by (prompt hash, system hash, max_tokens).
+    Results are disk-cached keyed by (prompt hash, system hash, max_tokens).
     Returns the assistant's reply text.
     """
     prompt_hash = hashlib.sha256(prompt.encode()).hexdigest()
@@ -296,31 +388,22 @@ def evon_complete(
     _check_cap()
     _record_call("evon-v3.3", CREDIT_COSTS["evon"])
 
-    payload = {
-        "model": "evon-v3.3",
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": prompt},
-        ],
-        "max_tokens": max_tokens,
-        "temperature": 0.3,
-    }
+    key = settings.effective_evon_key
+    use_hf = _is_hf_key(key)
+    backend = "HuggingFace" if use_hf else "Gnani-vachana"
+    logger.info("Evon backend: %s", backend)
 
     try:
-        with httpx.Client(timeout=15.0) as client:
-            resp = client.post(
-                f"{EVON_BASE_URL}/chat/completions",
-                headers={
-                    "Content-Type": "application/json",
-                    "X-API-Key-ID": settings.effective_evon_key,
-                },
-                json=payload,
-            )
-            resp.raise_for_status()
-            text: str = resp.json()["choices"][0]["message"]["content"]
-            set_cached(cache_key, text)
-            return text
+        if use_hf:
+            text = _evon_via_huggingface(key, prompt, system, max_tokens)
+        else:
+            text = _evon_via_gnani(key, prompt, system, max_tokens)
+        set_cached(cache_key, text)
+        return text
     except Exception as exc:
-        logger.warning("Evon completion unavailable (%s); using intelligent fallback", exc)
+        logger.warning(
+            "Evon completion unavailable via %s (%s); using intelligent fallback",
+            backend, exc,
+        )
         result = json.dumps(_mock_evon_response(prompt_type))
         return result
