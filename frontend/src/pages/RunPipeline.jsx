@@ -72,7 +72,7 @@ export default function RunPipeline() {
     <div style={{ padding: 'var(--sp-8) var(--sp-10)', maxWidth: 1000 }}>
       {/* Header */}
       <div className="fade-up" style={{ marginBottom: 'var(--sp-6)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <span className="edition-tag">
             <span className="live-dot" />
             BENCHMARK ORCHESTRATOR
@@ -82,7 +82,7 @@ export default function RunPipeline() {
         <h1 className="heading-xl">
           Run <em>Pipeline</em>
         </h1>
-        <p className="body-md" style={{ color: 'var(--text-muted)', marginTop: 8 }}>
+        <p className="body-md" style={{ color: 'var(--text-muted)', marginTop: 10 }}>
           Execute multi-condition synthetic Hinglish benchmark runs. Real-time credit metering and progress streaming.
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function RunPipeline() {
         {/* Left: Configuration Panel */}
         <div className="card fade-up">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--sp-5)' }}>
-            <h2 className="heading-md">Configuration Matrix</h2>
+            <h2 className="heading-md" style={{ fontFamily: 'var(--font-serif)', fontSize: 18 }}>Configuration Matrix</h2>
             <span className="badge badge-muted">CONFIG v1.0</span>
           </div>
 
@@ -118,7 +118,7 @@ export default function RunPipeline() {
                     />
                     <span className="toggle-slider" />
                   </label>
-                  <span className="body-sm" style={{ fontWeight: 600, color: config.dry_run ? 'var(--accent)' : 'var(--text-muted)' }}>
+                  <span className="body-sm" style={{ fontWeight: 600, color: config.dry_run ? 'var(--gold)' : 'var(--text-muted)' }}>
                     {config.dry_run ? 'Dry Run (0 Credits)' : 'Live Gnani API'}
                   </span>
                 </label>
@@ -181,17 +181,17 @@ export default function RunPipeline() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <div className="body-sm">Total Audio Pipeline Variants</div>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.03em' }}>
-                  {estimatedCalls} <span style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 400 }}>runs</span>
+                <div style={{ fontFamily: 'var(--font-serif)', fontSize: 34, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+                  {estimatedCalls} <span style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 400 }}>variants</span>
                 </div>
               </div>
               <div>
                 <div className="body-sm">Estimated Gnani Credits</div>
-                <div style={{ fontSize: 32, fontWeight: 800, color: config.dry_run ? 'var(--accent)' : 'var(--accent-cyan)', letterSpacing: '-0.03em' }}>
+                <div style={{ fontFamily: 'var(--font-serif)', fontSize: 34, fontWeight: 600, color: config.dry_run ? 'var(--gold)' : 'var(--ink)', letterSpacing: '-0.02em' }}>
                   {config.dry_run ? '0 (Dry Run)' : `~${totalEst}`} <span style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 400 }}>credits</span>
                 </div>
               </div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', background: 'rgba(255,255,255,0.02)', padding: 10, borderRadius: 8, border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', background: 'var(--surface-warm)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
                 ℹ All requests pass through SHA-256 disk cache. Identical calls are billed exactly 0 credits.
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function RunPipeline() {
               style={{ width: '100%', marginTop: 20, padding: '14px', fontSize: 14 }}
             >
               {progress?.status === 'running' ? (
-                <><span className="spinner" style={{ width: 14, height: 14 }} /> Pipeline Executing…</>
+                <><span className="spinner" style={{ width: 14, height: 14, borderTopColor: '#F7F7EE' }} /> Pipeline Executing…</>
               ) : (
                 '▷ Launch Benchmark Suite'
               )}
@@ -215,7 +215,7 @@ export default function RunPipeline() {
             <div className="card-sm">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span className="heading-sm">SESSION CREDITS CONSUMED</span>
-                <span style={{ fontWeight: 800, color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
+                <span style={{ fontWeight: 800, color: 'var(--gold)', fontFamily: 'var(--font-mono)' }}>
                   {usage.total_credits || 0}
                 </span>
               </div>
@@ -226,15 +226,15 @@ export default function RunPipeline() {
 
       {/* Live Pipeline Execution Progress */}
       {progress && (
-        <div className="card fade-up" style={{ borderLeft: progress.status === 'failed' ? '3px solid var(--terracotta)' : '3px solid var(--accent)' }}>
+        <div className="card fade-up" style={{ borderLeft: progress.status === 'failed' ? '3px solid var(--terracotta)' : '3px solid var(--ink)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span className={`badge ${progress.status === 'done' ? 'badge-olive' : progress.status === 'failed' ? 'badge-terra' : 'badge-beige'}`}>
                 {progress.status.toUpperCase()}
               </span>
-              <span style={{ fontWeight: 700, fontSize: 14, color: '#FFFFFF' }}>{progress.current_step}</span>
+              <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--ink)' }}>{progress.current_step}</span>
             </div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--accent)', fontWeight: 700 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ink)', fontWeight: 700 }}>
               {pct}% ({progress.completed_steps}/{progress.total_steps || estimatedCalls})
             </span>
           </div>
@@ -248,7 +248,7 @@ export default function RunPipeline() {
 
           {progress.status === 'done' && (
             <div style={{ marginTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 13, color: 'var(--accent)' }}>
+              <span style={{ fontSize: 13, color: 'var(--olive)', fontWeight: 600 }}>
                 ✓ Benchmark run finished successfully! Results are now visible on Overview and Call Explorer.
               </span>
               <a href="/" className="btn btn-secondary" style={{ padding: '6px 14px', fontSize: 12 }}>
@@ -257,7 +257,7 @@ export default function RunPipeline() {
             </div>
           )}
           {progress.status === 'failed' && (
-            <div style={{ marginTop: 12, fontSize: 13, color: 'var(--terracotta-lt)' }}>
+            <div style={{ marginTop: 12, fontSize: 13, color: 'var(--terracotta)' }}>
               Error: {progress.error}
             </div>
           )}

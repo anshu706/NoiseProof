@@ -69,27 +69,27 @@ export default function CallExplorer() {
     <div style={{ padding: 'var(--sp-8) var(--sp-10)', maxWidth: 1200 }}>
       {/* Header */}
       <div className="fade-up" style={{ marginBottom: 'var(--sp-6)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <span className="edition-tag">
             <span className="live-dot" />
-            AUDIO INSPECTION LAB
+            AUDIO INSPECTION CONSOLE
           </span>
           <span className="badge badge-beige">PRISMA v2.5 DECODER</span>
         </div>
         <h1 className="heading-xl">
           Call <em>Explorer</em>
         </h1>
-        <p className="body-md" style={{ color: 'var(--text-muted)', marginTop: 8 }}>
-          A/B compare clean synthesized speech against degraded telephone noise variants with word-level error highlighting.
+        <p className="body-md" style={{ color: 'var(--text-muted)', marginTop: 10 }}>
+          Side-by-side A/B waveform listening between clean synthetic master audio and telephone-degraded noise variants with word-level error highlighting.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 'var(--sp-6)' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '290px 1fr', gap: 'var(--sp-6)' }}>
         {/* Left Column – Call Selector & Controls */}
         <div>
           {/* Calls List */}
           <div className="card" style={{ marginBottom: 'var(--sp-4)' }}>
-            <div className="heading-sm" style={{ marginBottom: 14 }}>Generated Calls</div>
+            <div className="heading-sm" style={{ marginBottom: 14 }}>01 // GENERATED CALLS</div>
             {calls.length === 0 && (
               <p className="body-sm" style={{ color: 'var(--text-muted)' }}>
                 No calls generated yet. Launch a benchmark from the Run Pipeline page.
@@ -104,15 +104,15 @@ export default function CallExplorer() {
                     onClick={() => setSelectedCall(c.call_id)}
                     style={{
                       display: 'block', width: '100%', textAlign: 'left', padding: '12px 14px',
-                      borderRadius: 10, border: isSel ? '1px solid var(--accent)' : '1px solid var(--border)',
+                      borderRadius: 8, border: isSel ? '1px solid var(--ink)' : '1px solid var(--border)',
                       cursor: 'pointer',
-                      background: isSel ? 'rgba(0, 245, 160, 0.08)' : 'rgba(255, 255, 255, 0.02)',
-                      boxShadow: isSel ? '0 0 16px rgba(0, 245, 160, 0.15)' : 'none',
-                      color: '#FFFFFF', fontFamily: 'var(--font)', transition: 'all 200ms',
+                      background: isSel ? 'var(--surface-warm)' : '#FFFFFF',
+                      boxShadow: isSel ? 'var(--shadow-sm)' : 'none',
+                      color: 'var(--ink)', fontFamily: 'var(--font)', transition: 'all 180ms ease',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 700, fontSize: 13, color: isSel ? 'var(--accent)' : '#FFFFFF' }}>{c.call_id}</span>
+                      <span style={{ fontWeight: 700, fontSize: 13, color: isSel ? 'var(--ink)' : 'var(--text-muted)' }}>{c.call_id}</span>
                       <span className="badge badge-muted" style={{ fontSize: 10 }}>{c.turns || 8} turns</span>
                     </div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -127,7 +127,7 @@ export default function CallExplorer() {
           {/* Condition Matrix Selectors */}
           {selectedCall && (
             <div className="card">
-              <div className="heading-sm" style={{ marginBottom: 10 }}>Background Noise</div>
+              <div className="heading-sm" style={{ marginBottom: 10 }}>02 // BACKGROUND NOISE</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
                 {NOISE_TYPES.map(n => (
                   <button
@@ -141,7 +141,7 @@ export default function CallExplorer() {
                 ))}
               </div>
 
-              <div className="heading-sm" style={{ marginBottom: 10 }}>Signal-to-Noise Ratio</div>
+              <div className="heading-sm" style={{ marginBottom: 10 }}>03 // SIGNAL-TO-NOISE RATIO</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {SNR_LEVELS.map(s => (
                   <button
@@ -177,9 +177,9 @@ export default function CallExplorer() {
               {/* Dual Audio Players */}
               <div className="grid-2" style={{ marginBottom: 'var(--sp-4)' }}>
                 {/* Clean Audio Player */}
-                <div className="card" style={{ borderLeft: '3px solid var(--accent)' }}>
+                <div className="card" style={{ borderLeft: '3px solid var(--ink)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                    <div className="heading-sm" style={{ color: 'var(--accent)' }}>🎙 Clean Master Recording</div>
+                    <div className="heading-sm" style={{ color: 'var(--ink)' }}>🎙 Clean Master Recording</div>
                     <span className="badge badge-olive">Timbre v2.5 · 22 kHz</span>
                   </div>
                   {callDetail.clean_audio_url ? (
@@ -190,12 +190,12 @@ export default function CallExplorer() {
                 </div>
 
                 {/* Noisy Audio Player */}
-                <div className="card" style={{ borderLeft: '3px solid var(--accent-cyan)' }}>
+                <div className="card" style={{ borderLeft: '3px solid var(--terracotta)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                    <div className="heading-sm" style={{ color: 'var(--accent-cyan)' }}>
+                    <div className="heading-sm" style={{ color: 'var(--terracotta)' }}>
                       📡 Noisy Simulation ({noiseType} @ {snr === 'clean' ? 'Clean' : `${snr} dB`})
                     </div>
-                    <span className="badge badge-beige">Telephone Band (8 kHz)</span>
+                    <span className="badge badge-terra">Telephone Band (8 kHz)</span>
                   </div>
                   {(() => {
                     const noisyUrl = callDetail.noisy_variants?.find(v => v.includes(`${noiseType}_${snr}`))
@@ -218,7 +218,7 @@ export default function CallExplorer() {
                     <span className="heading-sm">📄 Ground Truth Reference</span>
                     <span className="badge badge-muted">Exact Script</span>
                   </div>
-                  <div style={{ fontSize: 13, color: '#D5DAE5', lineHeight: 1.85, maxHeight: 280, overflowY: 'auto', paddingRight: 6 }}>
+                  <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.85, maxHeight: 280, overflowY: 'auto', paddingRight: 6 }}>
                     {refText || 'No reference text available.'}
                   </div>
                 </div>
@@ -226,7 +226,7 @@ export default function CallExplorer() {
                 {/* STT Output with Word Diff */}
                 <div className="card">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <div className="heading-sm" style={{ color: 'var(--accent)' }}>🤖 Prisma v2.5 STT Transcript</div>
+                    <div className="heading-sm" style={{ color: 'var(--ink)' }}>🤖 Prisma v2.5 STT Transcript</div>
                     <span className="badge badge-olive">Live Decoder</span>
                   </div>
                   <div style={{ maxHeight: 280, overflowY: 'auto', paddingRight: 6 }}>
@@ -256,20 +256,21 @@ export default function CallExplorer() {
                           key={i}
                           style={{
                             display: 'flex', gap: 12, alignItems: 'flex-start',
-                            padding: '10px 14px', borderRadius: 8,
-                            background: isAgent ? 'rgba(0, 245, 160, 0.04)' : 'rgba(255, 255, 255, 0.02)',
-                            borderLeft: `3px solid ${isAgent ? 'var(--accent)' : 'var(--accent-cyan)'}`,
+                            padding: '10px 14px', borderRadius: 6,
+                            background: isAgent ? 'var(--surface-warm)' : '#FFFFFF',
+                            border: '1px solid var(--border)',
+                            borderLeft: `3px solid ${isAgent ? 'var(--ink)' : 'var(--gold)'}`,
                           }}
                         >
                           <span style={{
                             fontSize: 11, fontWeight: 700,
-                            color: isAgent ? 'var(--accent)' : 'var(--accent-cyan)',
-                            width: 65, flexShrink: 0, paddingTop: 2,
+                            color: isAgent ? 'var(--ink)' : 'var(--gold)',
+                            width: 70, flexShrink: 0, paddingTop: 2,
                             textTransform: 'uppercase', fontFamily: 'var(--font-mono)'
                           }}>
                             {turn.speaker}
                           </span>
-                          <span style={{ fontSize: 13, color: '#E8EDF5', lineHeight: 1.6 }}>{turn.text}</span>
+                          <span style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{turn.text}</span>
                         </div>
                       )
                     })}
