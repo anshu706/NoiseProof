@@ -16,14 +16,14 @@ NoiseProof evaluates call summarisation accuracy as signal-to-noise ratio drops 
 
 ---
 
-## 🎨 Design System: Shopify Editions Winter 2026
+## 🎨 Design System: Shopify Editions Winter 2026 ("The RenAIssance Edition")
 
-The web interface is engineered around the **Shopify Editions Winter 2026** design language:
-- **Obsidian Dark Surface**: High-contrast, pitch-black backdrop (`#07080A`) with subtle radial ambient glow orbs.
-- **Luminous Neon Accents**: Shopify Aurora Emerald (`#00F5A0`) and Electric Ice Cyan (`#00D2FF`).
-- **Frosted Glassmorphism**: Translucent panels with high saturation and backdrop blur.
-- **Typography & Banners**: Geometric Plus Jakarta Sans, monospace metadata badges, and animated live pulse indicators.
-- **Dual Audio Inspection Lab**: Synchronized clean vs. degraded waveform listening with live transcript diffing.
+The web interface is engineered around the **Shopify Editions Winter 2026** editorial design language:
+- **Museum Warm Parchment Canvas**: Architectural grid backdrop (`#F7F7EE`) with deep olive-charcoal museum ink (`#292919`).
+- **Italian Fresco Palette**: Tuscan Terracotta (`#C24B27`), Antique Florentine Gold (`#B88E3E`), and Cypress Olive (`#2D5A27`).
+- **Editorial Typography**: Newsreader classical serif display typography paired with geometric Plus Jakarta Sans and JetBrains Mono badges.
+- **Dual Audio Inspection Lab**: Synchronized clean vs. degraded waveform listening with live transcript diffing and turn-level inspection.
+- **Award Status Bar**: Edition header bar with live pulsing gold dot tracking target award status (*Noise Canceller: 0 dB Tolerance*).
 
 ---
 
