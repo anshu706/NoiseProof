@@ -1,0 +1,15 @@
+[project]
+name = "noiseproof"
+version = "1.0.0"
+description = "NoiseProof: Call Intelligence Under Noisy Conditions"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.vercel]
+entrypoint = "backend.app.main:app"
+
+[tool.vercel.scripts]
+build = "npm --prefix frontend install && npm --prefix frontend run build"
+
+[tool.vercel.fastapi.static]
+cdn = true

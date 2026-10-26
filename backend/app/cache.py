@@ -25,7 +25,16 @@ _cache: Optional[diskcache.Cache] = None
 def _get_cache() -> diskcache.Cache:
     global _cache
     if _cache is None:
-        _cache = diskcache.Cache(str(settings.cache_dir))
+        try:
+            _cache = diskcache.Cache(str(settings.cache_dir))
+        except Exception:
+            import tempfile
+            temp_cache = Path(tempfile.gettempdir()) / "noiseproof_cache"
+            try:
+                temp_cache.mkdir(parents=True, exist_ok=True)
+            except OSError:
+                pass
+            _cache = diskcache.Cache(str(temp_cache))
     return _cache
 
 

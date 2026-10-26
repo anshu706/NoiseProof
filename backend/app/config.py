@@ -74,7 +74,7 @@ class Settings(BaseSettings):
 # Singleton – import and use throughout the app.
 settings = Settings()
 
-# Ensure required directories exist at import time.
+# Ensure required directories exist at import time (safe for read-only environments).
 for _dir in (
     settings.data_dir,
     settings.cache_dir,
@@ -82,4 +82,8 @@ for _dir in (
     settings.results_dir,
     settings.noise_dir,
 ):
-    _dir.mkdir(parents=True, exist_ok=True)
+    try:
+        _dir.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+

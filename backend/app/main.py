@@ -240,6 +240,15 @@ async def api_usage() -> dict:
     return get_usage()
 
 
+# ── Frontend static files / SPA ───────────────────────────────────────────────
+frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+if frontend_dist.exists():
+    if hasattr(app, "frontend"):
+        app.frontend("/", directory=str(frontend_dist), fallback="index.html")
+    else:
+        app.mount("/", StaticFiles(directory=str(frontend_dist), html=True), name="frontend")
+
+
 # ── Entrypoint ────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -249,3 +258,4 @@ if __name__ == "__main__":
         port=settings.backend_port,
         reload=True,
     )
+
