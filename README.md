@@ -7,6 +7,8 @@
 
 ## 🌟 Overview
 
+https://github.com/user-attachments/assets/97423746-1c52-472f-862e-fd7b9abb4afa
+
 **NoiseProof** is an end-to-end benchmarking and call intelligence platform powered by **Gnani AI's Vachana Suite**:
 - **Gnani Prisma v2.5**: Code-mixed Hinglish Speech-to-Text (STT) handling heavy noise and telephone degradation.
 - **Gnani Timbre v2.5**: Multi-voice Text-to-Speech (TTS) generating realistic synthetic dialogue turns (`Poorvi` Hinglish female agent, `Vikrant` Hindi male customer).
